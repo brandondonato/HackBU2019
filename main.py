@@ -25,12 +25,16 @@ def parseArray(array, n):
 
     return master_list
 
-def createHashMap(array):
+def createHashMap(array, order):
     dict = {}
 
     for words in array:
-        for i in range(len(words) - 5):
-            reference = words[i] + words[i+1] + words[i+2] + words[i+3] + words[i+4] + words[i+5]
+        for i in range(len(words) - (order - 1)):
+
+            reference = ''
+            for j in range(order):
+                reference += words[i+j]
+            #reference = words[i] + words[i+1] + words[i+2] + words[i+3] + words[i+4] + words[i+5]
             if reference not in dict.keys():
                 dict[reference] = 1
             else:
@@ -78,23 +82,27 @@ def cleanData(array):
     else:
         return new_list
 
+def writeAbstract(string, dict):
+    output = open("output.txt", 'w')
+    while string != None:
+        output.write(string)
+        string = getNextString(string, dict)
+        if string == None:
+            break
+    output.close()
+
 def main():
-    #abstracts = ["The quick brown fox jumps over the lazy dog.", "The quick lazy dog jumps over the brown fox.", "The quick lazy dog jumps over the brown fox."]
+
     n = 10000
+    order = 6
+
     abstracts = getData()
     data_array = parseArray(abstracts, n)
-    data_dict = createHashMap(data_array)
+    data_dict = createHashMap(data_array, order)
 
     starting_string = "this study "
     next_string = starting_string
 
-    output = open("output.txt", 'w')
-    while next_string != None:
-        output.write(next_string)
-        next_string = getNextString(next_string, data_dict)
-        if next_string == None:
-            break
-
-    output.close()
+    writeAbstract(next_string, data_dict)
 
 main()
