@@ -29,8 +29,8 @@ def createHashMap(array):
     dict = {}
 
     for words in array:
-        for i in range(len(words) - 3):
-            reference = words[i] + words[i+1] + words[i+2] + words[i+3]
+        for i in range(len(words) - 5):
+            reference = words[i] + words[i+1] + words[i+2] + words[i+3] + words[i+4] + words[i+5]
             if reference not in dict.keys():
                 dict[reference] = 1
             else:
@@ -43,12 +43,14 @@ def findKeys(string, dict):
     for i in dict.keys():
         if i[:len(string)] == string:
             keys.append(i)
+
     return keys
 
 def getRandomNumber(array, dict):
     accum = 0
     for i in array:
         accum += dict[i]
+
     return random.randrange(1, accum + 1)
 
 def getNextString(string, dict):
@@ -78,19 +80,21 @@ def cleanData(array):
 
 def main():
     #abstracts = ["The quick brown fox jumps over the lazy dog.", "The quick lazy dog jumps over the brown fox.", "The quick lazy dog jumps over the brown fox."]
-    n = 50000
+    n = 10000
     abstracts = getData()
-    dataset = parseArray(abstracts, n)
-    training_data = createHashMap(dataset)
+    data_array = parseArray(abstracts, n)
+    data_dict = createHashMap(data_array)
 
     starting_string = "this study "
     next_string = starting_string
-    final_string = starting_string
 
+    output = open("output.txt", 'w')
     while next_string != None:
-        next_string = getNextString(next_string, training_data)
-        if next_string != None:
-            final_string += next_string
-    print(final_string)
+        output.write(next_string)
+        next_string = getNextString(next_string, data_dict)
+        if next_string == None:
+            break
+
+    output.close()
 
 main()
