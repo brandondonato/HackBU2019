@@ -34,7 +34,7 @@ def createHashMap(array, order):
             reference = ''
             for j in range(order):
                 reference += words[i+j]
-            #reference = words[i] + words[i+1] + words[i+2] + words[i+3] + words[i+4] + words[i+5]
+
             if reference not in dict.keys():
                 dict[reference] = 1
             else:
@@ -77,24 +77,28 @@ def getData():
 def cleanData(array):
     new_list = []
     for i in array:
-        if type(i) != type(1.0): # Modern problems require modern solutions
+        if type(i) != type(1.0): # Modern problems require modern solutions =
             new_list.append(i)
     else:
         return new_list
 
-def writeAbstract(string, dict):
+def writeAbstract(string, dict, length):
     output = open("output.txt", 'w')
-    while string != None:
+    counter = 0
+    while string != None and counter < length:
+        print("I'm in")
         output.write(string)
         string = getNextString(string, dict)
         if string == None:
             break
+        counter += 1
     output.close()
 
 def main():
 
     n = 10000
     order = 6
+    length = 150
 
     abstracts = getData()
     data_array = parseArray(abstracts, n)
@@ -103,6 +107,6 @@ def main():
     starting_string = "this study "
     next_string = starting_string
 
-    writeAbstract(next_string, data_dict)
+    writeAbstract(next_string, data_dict, length)
 
 main()
