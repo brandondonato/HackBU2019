@@ -86,7 +86,6 @@ def writeAbstract(string, dict, length):
     output = open("output.txt", 'w')
     counter = 0
     while string != None and counter < length:
-        print("I'm in")
         output.write(string)
         string = getNextString(string, dict)
         if string == None:
